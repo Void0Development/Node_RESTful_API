@@ -2,6 +2,7 @@ const auth = require('../auth/authMe');
 const assert = require('assert');
 const moment = require('moment');
 const db = require('../dbconfig/sqlconnect');
+const ApiError = require('../domain/ApiError');
 
 module.exports = {
 
@@ -37,6 +38,9 @@ module.exports = {
             assert(password !== '', 'Password was not defined or passed as empty');
             assert(typeof(email) === 'string', 'Username is not of type string');
             assert(typeof(password) === 'string', 'Password is not of type string');
+           assert(email.trim().length > 6, "Email meer dan 2 chars");
+
+           assert(password.trim().length > 2, "Wachtwoord meer dan 2 chars");
 
 
         
@@ -45,12 +49,13 @@ module.exports = {
                if(error) {
                    res.status(500).json({
                        status: 500,
-                       description: error.message //|| error
+                       description: error.message 
                    }).end();
                    console.log('Internal error');
                } else {
                    if(rows.length > 0) {
-                       const token = auth.encodeToken(email);
+
+                       const token = auth.encodeToken(email /*, id*/);
                        res.status(200).json({
                            token: token,
                            email: email
@@ -67,15 +72,8 @@ module.exports = {
                }
             });
         } catch (err) {
-            res.status(412).json({
-                message: "Een of meer properties in de request body ontbreken of zijn foutief",
-                code: 412,
-                datetime: moment().format()
-            }).end();
-            next({
-                status: 412,
-                description: err.toString()
-            });
+            throw (new ApiError(err.toString(), 412))
+        
         }
     } ,
 
@@ -97,6 +95,11 @@ module.exports = {
             assert(typeof(lastname) === 'string', 'Password is not of type string');
             assert(typeof(email) === 'string', 'Username is not of type string');
             assert(typeof(password) === 'string', 'Password is not of type string');
+            
+            assert(firstname.trim().length > 2, "Voornaam meer dan 2 chars");
+            assert(lastname.trim().length > 2, "Achternaam meer dan 2 chars");
+            assert(email.trim().length > 2, "Email meer dan 2 chars");
+            assert(password.trim().length > 2, "Wachtwoord meer dan 2 chars");
 
 
             db.query('SELECT * FROM user WHERE Email=? AND Password=?;', [email, password], (error, rows, fields) => {
@@ -119,21 +122,13 @@ module.exports = {
                                 status: 200,
                                 description: 'Account aaangemaakt',
                                 token: token
-                            });
+                            }).end();
                         });
                     }
                 }
             });
         } catch (err) {
-            res.status(412).json({
-                message: "Een of meer properties in de request body ontbreken of zijn foutief",
-                code: 412,
-                datetime: moment().format()
-            }).end();
-            next({
-                status: 412,
-                description: err.toString()
-            });
+            throw (new ApiError(err.toString(), 412))
         }
     }
     

@@ -1,5 +1,5 @@
 {
     "database_host": "localhost",
     "database_user": "studentenhuis_user",
-    "database_identifier": "studentenhuis"
+    "database_identifier": "studentenhuis" 
 }

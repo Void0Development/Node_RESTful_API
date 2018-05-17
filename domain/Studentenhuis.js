@@ -8,8 +8,10 @@ class Studentenhuis{
         try{
             assert(typeof(naam)==='string', 'naam must be a string')
             assert(typeof(adres)=== 'string', 'adres must be a string')
+            assert(naam !== '', 'Naam was empty')
+            assert(adres !== '', 'Adres was empty')
         }catch(ex){
-            throw(new ApiError(ex.toString(),422))
+            throw(new ApiError(ex.toString(),412))
         }
         this.naam = naam
         this.adres = adres

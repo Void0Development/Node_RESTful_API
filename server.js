@@ -3,7 +3,7 @@ let express = require('express');
 let bodyParser	= require('body-parser');
 let ApiError = require('./domain/ApiError.js')
 let studentenhuis_routes = require('./routes/routes')
-const authRouter= require('./routes/auth_routes');
+const authRouter = require('./routes/auth_routes');
 //const logonRouter= require('./routes/logon_routes');
 //const regRouter= require('./routes/reg_routes');
 const AuthController = require('./controllers/auth_control');
@@ -21,7 +21,7 @@ app.all('*', function(req, res, next){
     next();
 });
 
-app.use(express.static(__dirname + '/public'));
+
 
 
 app.use('/api', authRouter);

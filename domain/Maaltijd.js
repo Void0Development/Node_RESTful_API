@@ -15,9 +15,14 @@ class Maaltijd{
             assert(typeof(ingredienten)=== 'string', 'ingredienten must be a string')
             assert(typeof(allergie)=== 'string', 'allergie must be a string')
             assert(typeof(prijs)=== 'number', 'prijs must be a int')
+            assert(naam !== '','Naam was empty')
+            assert(beschrijving !== '', 'Beschrijving was empty')
+            assert(ingredienten !== '', 'Ingredienten was empty')
+            assert(allergie !== '', 'Allergie was empty')
+            assert(prijs >= 0, 'Prijs was lower than 0')
         }
         catch(ex){
-            throw(new ApiError(ex.toString(),422))
+            throw(new ApiError(ex.toString(),412))
         }
         this.naam = naam
         this.beschrijving = beschrijving

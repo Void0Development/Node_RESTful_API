@@ -4,11 +4,12 @@ const moment = require('moment');
 const jwt = require('jwt-simple');
 
 //de gebruikersnaam naar een token
-function encodeToken(username) {
+function encodeToken(username, id) {
     const payload = {
-        exp: moment().add(10, 'minutes').unix(), //expiration tijd  van token
+        exp: moment().add(60, 'minutes').unix(), //expiration tijd  van token
         iat: moment().unix(),
-        sub: username
+        sub: username//,
+       // id: id
     };
 
     return jwt.encode(payload, config.secretKey);

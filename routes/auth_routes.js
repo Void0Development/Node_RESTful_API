@@ -9,8 +9,8 @@ routes.get('/', function (req, res) {
     res.json({ 'tekst': 'API beschikbaar, gebruik /register en /login!' })
 });
 
-// endpoints
-routes.post('/login', AuthController.login);
+// The router endpoints that we provide
+ routes.post('/login', AuthController.login);
 routes.post('/register', AuthController.register);
 
 // Export the routes
